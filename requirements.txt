@@ -5,6 +5,6 @@ python-dotenv==1.0.1
 requests==2.32.3
 argon2-cffi==23.1.0
 qrcode[pil]==7.4.2
-bakong-khqr==1.0.2
+bakong-khqr==0.6.5
 authlib==1.3.2
 resend==2.6.0
