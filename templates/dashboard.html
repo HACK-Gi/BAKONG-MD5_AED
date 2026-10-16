@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+<section class="dash">
+  <h1>គណនី {{ user.email }}</h1>
+
+  <div class="card">
+    <h2>ការជាវ</h2>
+    {% if sub.active %}
+      <p class="ok">សកម្ម — ផុតកំណត់ {{ sub.expires_at }}</p>
+    {% else %}
+      <p class="warn">អសកម្ម</p>
+      <a class="btn" href="/pay/">បង់ប្រាក់ $2.50/ខែ</a>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>API Keys</h2>
+    <button id="new-key" {% if not sub.active %}disabled{% endif %}>បង្កើត Key ថ្មី</button>
+    <div id="new-key-box" class="hidden">
+      <p class="warn">រក្សាទុកតែម្ដងនេះ — មិនបង្ហាញម្ដងទៀត</p>
+      <code id="new-key-val"></code>
+    </div>
+    {% if keys %}
+    {% if keys %}
+    <table class="keys">
+      <thead><tr><th>Prefix</th><th>ឈ្មោះ</th><th>ចុងក្រោយប្រើ</th><th></th></tr></thead>
+      <tbody>
+      {% for k in keys %}
+        <tr>
+          <td><code>{{ k.key_prefix }}…</code></td>
+          <td>{{ k.name }}</td>
+          <td>{{ k.last_used or '—' }}</td>
+          <td>{% if not k.revoked %}<button class="revoke" data-id="{{ k.id }}">លុប</button>{% else %}revoked{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">🔑</div>
+      <p>មិនទាន់មាន API key ទេ</p>
+      <p class="muted">ចុច "បង្កើត Key ថ្មី" ខាងលើដើម្បីចាប់ផ្ដើម</p>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">🔑</div>
+      <p>មិនទាន់មាន API key ទេ</p>
+      <p class="muted">ចុច "បង្កើត Key ថ្មី" ខាងលើដើម្បីចាប់ផ្ដើម</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>ឧទាហរណ៍ប្រើ</h2>
+    <pre><code>curl -X POST https://yourdomain.com/api_md5 \
+  -H "Content-Type: application/json" \
+  -d '{"md5":"MD5_HERE","key":"YOUR_KEY"}'</code></pre>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>bindDashboard();</script>
+{% endblock %}

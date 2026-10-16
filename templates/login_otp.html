@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}លេខកូដចូល{% endblock %}
+{% block body %}
+<section class="form-card verify-card">
+  <div class="verify-icon">🔐</div>
+  <h1>បញ្ចូលលេខកូដ</h1>
+  <p>កូដបានផ្ញើទៅ:</p>
+  <p class="verify-email">{{ email }}</p>
+
+  <div id="dev-banner" style="display:none; background:#f5a524; color:#000; padding:14px; border-radius:8px; margin:16px 0; font-family:monospace; font-size:14px; text-align:center; font-weight:600;"></div>
+
+  <form id="otp-form" data-email="{{ email }}">
+    <input type="text" name="code" placeholder="000000" required
+           inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6"
+           autocomplete="one-time-code" autofocus
+           style="text-align:center; font-family:var(--mono); font-size:24px; letter-spacing:8px;">
+    <button type="submit">ផ្ទៀងផ្ទាត់</button>
+    <p class="err" id="err"></p>
+    <p class="muted" id="status"></p>
+  </form>
+
+  <div class="verify-resend">
+    <button id="resend-otp-btn" class="btn btn-outline" data-email="{{ email }}"
+            {% if cooldown > 0 %}disabled{% endif %}>
+      {% if cooldown > 0 %}ផ្ញើឡើងវិញបានក្នុង <span id="countdown">{{ cooldown }}</span>s{% else %}ផ្ញើកូដឡើងវិញ{% endif %}
+    </button>
+  </div>
+
+  <p class="muted" style="margin-top:24px;">
+    <a href="/login">ត្រឡប់ទៅ login</a>
+  </p>
+</section>
+
+<script>
+(function(){
+  // DEV MODE — read OTP from sessionStorage
+  var otp = sessionStorage.getItem("dev_otp");
+  var banner = document.getElementById("dev-banner");
+  if (otp && banner) {
+    banner.style.display = "block";
+    banner.innerHTML = "⚠ DEV MODE — OTP: <span style='font-size:22px; letter-spacing:6px;'>" + otp + "</span>";
+    sessionStorage.removeItem("dev_otp");
+    // auto-fill input
+    var input = document.querySelector('input[name="code"]');
+    if (input && !input.value) input.value = otp;
+  }
+
+  // resend button — show new OTP
+  var btn = document.getElementById("resend-otp-btn");
+  if (btn) {
+    var origOnClick = btn.onclick;
+    btn.addEventListener("click", function() {
+      setTimeout(function(){
+        var newOtp = sessionStorage.getItem("dev_otp");
+        if (newOtp && banner) {
+          banner.style.display = "block";
+          banner.innerHTML = "⚠ DEV MODE — OTP: <span style='font-size:22px; letter-spacing:6px;'>" + newOtp + "</span>";
+          sessionStorage.removeItem("dev_otp");
+        }
+      }, 1500);
+    });
+  }
+})();
+</script>
+{% endblock %}

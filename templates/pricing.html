@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="pricing">
+  <h1>ជ្រើសរើសកញ្ចប់</h1>
+  <div class="plan-grid">
+    {% for p in plans %}
+      <div class="plan-card {% if p.key == 'monthly' %}featured{% endif %}">
+        {% if p.key == 'monthly' %}<div class="badge">ពេញនិយម</div>{% endif %}
+        <h2>{{ p.label }}</h2>
+        <div class="price">${{ "%.2f"|format(p.price) }}</div>
+        <div class="days">{{ p.days }} ថ្ងៃ</div>
+        <ul>
+          <li>API ឆែក MD5</li>
+          <li>60 req/min</li>
+          <li>API key ច្រើន</li>
+        </ul>
+        <a class="btn" href="/pay/?plan={{ p.key }}">បង់ឥឡូវ</a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

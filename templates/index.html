@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="hero">
+  <div class="hero-badge">🇰🇭 Bakong API v1</div>
+  <h1>ឆែក MD5<br><span class="grad">Bakong ក្នុងវិនាទី</span></h1>
+  <p class="lead">API តែមួយ — ផ្ទៀងផ្ទាត់ប្រតិបត្តិការ Bakong ដោយ MD5។<br>លឿន សុវត្ថិភាព គ្មានការរំខាន។</p>
+  <div class="hero-actions">
+    <a class="btn btn-lg" href="/register">ចាប់ផ្ដើមឥឡូវ — $2.50/ខែ</a>
+    <a class="btn btn-outline btn-lg" href="/docs">មើលឯកសារ</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature-card">
+    <div class="ico">⚡</div>
+    <h3>លឿនបំផុត</h3>
+    <p>Latency ទាប — VPS កម្ពុជា ភ្ជាប់ផ្ទាល់ Bakong NBC។</p>
+  </div>
+  <div class="feature-card">
+    <div class="ico">🔒</div>
+    <h3>សុវត្ថិភាព</h3>
+    <p>API key hashed, token មិនលេច, rate limit ការពារ abuse។</p>
+  </div>
+  <div class="feature-card">
+    <div class="ico">🛠</div>
+    <h3>សាមញ្ញ</h3>
+    <p>REST API — GET ឬ POST។ គ្មាន SDK ចាំបាច់។</p>
+  </div>
+</section>
+
+<section class="code-showcase">
+  <div class="code-head">
+    <span>Quick start</span>
+    <span class="tag">bash</span>
+  </div>
+  <pre><code>curl -X POST https://yourdomain.com/api_md5 \
+  -H "Content-Type: application/json" \
+  -d '{"md5":"a1b2c3...","key":"YOUR_KEY"}'</code></pre>
+</section>
+{% endblock %}

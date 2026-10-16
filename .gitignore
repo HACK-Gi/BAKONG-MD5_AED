@@ -1,0 +1,43 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.env
+ex.env
+1.env
+
+# backups
+*.bak
+*.bak2
+*.bak3
+*.bak4
+.env.broken
+
+# python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# data
+data/
+*.db
+*.db.*
+*.sqlite*
+
+# editors
+.vscode/
+.idea/
+*.swp
+
+# os
+.DS_Store
+Thumbs.db
+
+# junk
+1.gitignore
+1.python-version
+requi
+vercel.json
+runWEB.py

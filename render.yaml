@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: bakong-md5
+    runtime: python
+    plan: free
+    region: singapore
+    branch: index
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 60 app:app
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FLASK_ENV
+        value: production
+      - key: EMAIL_MODE
+        value: console
+      - key: SECRET_KEY
+        generateValue: true
+      - key: BAKONG_BASE
+        value: https://api-bakong.nbc.gov.kh
+      - key: BAKONG_TOKEN
+        sync: false
+      - key: BAKONG_ACCOUNT
+        sync: false
+      - key: BAKONG_MERCHANT_NAME
+        value: MD5 Bakong
+      - key: BAKONG_MERCHANT_CITY
+        value: Phnom Penh
+      - key: BAKONG_PHONE
+        sync: false
+      - key: PLANS
+        value: daily:1:0.22,weekly:7:0.79,monthly:30:2.49,quarter:90:5.98,yearly:365:19.50
+      - key: API_RATE_PER_MIN
+        value: "60"
+      - key: LOGIN_RATE_PER_MIN
+        value: "5"
+      - key: PUBLIC_BASE_URL
+        sync: false

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}បង់ប្រាក់ — {{ plan.label }}{% endblock %}
+{% block body %}
+<section class="pay">
+  <h1>បង់ប្រាក់ {{ plan.label }}</h1>
+  <p>ចំនួន <b>${{ "%.2f"|format(plan.price) }}</b> — {{ plan.days }} ថ្ងៃ</p>
+
+  {% if error %}
+    <div class="card">
+      <p class="err">Error: {{ error }}</p>
+      <a class="btn" href="/pay/?plan={{ plan.key }}">ព្យាយាមម្ដងទៀត</a>
+    </div>
+  {% else %}
+    <div class="qr-box">
+      <img src="/pay/qr/{{ payment_id }}.png" alt="KHQR" width="280" height="280">
+      <p>ស្កេនដោយ app Bakong ដើម្បីបង់ប្រាក់</p>
+      <p class="warn">បន្ទាប់ពីបង់ប្រាក់រួច ចុចប៊ូតុងខាងក្រោម</p>
+    </div>
+
+    <div class="card">
+      <button id="confirm-btn" class="btn" data-pid="{{ payment_id }}"
+              style="width:100%; padding:14px; font-size:16px;">
+        ខ្ញុំបានផ្ទេរប្រាក់រួចហើយ
+      </button>
+      <p class="err" id="err" style="margin-top:12px;"></p>
+      <p id="status-msg" class="muted" style="text-align:center; margin-top:8px;"></p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>bindPayButton();</script>
+{% endblock %}

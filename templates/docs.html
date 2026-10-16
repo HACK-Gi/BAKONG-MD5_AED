@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}ឯកសារ API{% endblock %}
+{% block body %}
+<section class="docs">
+  <aside class="docs-side">
+    <h4>ចាប់ផ្ដើម</h4>
+    <a href="#intro">ការណែនាំ</a>
+    <a href="#auth">Authentication</a>
+    <a href="#limits">Rate Limits</a>
+    <h4>Endpoints</h4>
+    <a href="#post-md5">POST /api_md5</a>
+    <a href="#get-md5">GET /api_md5/:md5</a>
+    <a href="#resp">Response Format</a>
+    <h4>Examples</h4>
+    <a href="#curl">cURL</a>
+    <a href="#python">Python</a>
+    <a href="#node">Node.js</a>
+    <a href="#php">PHP</a>
+    <h4>Errors</h4>
+    <a href="#err-codes">Error Codes</a>
+  </aside>
+
+  <article class="docs-body">
+    <section id="intro">
+      <h1>ឯកសារ API</h1>
+      <p>API សម្រាប់ផ្ទៀងផ្ទាត់ប្រតិបត្តិការ Bakong ដោយ MD5។ Base URL៖</p>
+      <pre><code>https://yourdomain.com</code></pre>
+    </section>
+
+    <section id="auth">
+      <h2>Authentication</h2>
+      <p>រាល់ request ត្រូវការ API key របស់អ្នក។ ដាក់បានតាម ៣ វិធី៖</p>
+      <ul>
+        <li><b>JSON body</b> — field <code>key</code></li>
+        <li><b>Query string</b> — <code>?key=YOUR_KEY</code></li>
+        <li><b>Header</b> — <code>X-API-Key: YOUR_KEY</code></li>
+      </ul>
+      <p class="warn">កុំបង្ហាញ key ក្នុង frontend ឬ public repo។ ប្រើវាតែលើ server។</p>
+    </section>
+
+    <section id="limits">
+      <h2>Rate Limits</h2>
+      <table class="doc-table">
+        <tr><th>Plan</th><th>Requests/min</th></tr>
+        <tr><td>គ្រប់ plan</td><td>60</td></tr>
+      </table>
+      <p>លើស limit → <code>429 Too Many Requests</code></p>
+    </section>
+
+    <section id="post-md5">
+      <h2>POST /api_md5</h2>
+      <p>ផ្ទៀងផ្ទាត់ MD5 ដោយស្វ័យប្រវត្តិ។</p>
+      <div class="method-row"><span class="method post">POST</span><code>/api_md5</code></div>
+      <h4>Request</h4>
+      <pre><code>{
+  "md5": "a1b2c3d4e5f6...",
+  "key": "YOUR_API_KEY"
+}</code></pre>
+      <h4>Response (found)</h4>
+      <pre><code>{
+  "responseCode": 0,
+  "responseMessage": "Success",
+  "data": {
+    "hash": "...",
+    "md5": "a1b2c3d4e5f6...",
+    "amount": 2.50,
+    "currency": "USD",
+    "fromAccountId": "user@bank",
+    "toAccountId": "merchant@bank",
+    "paidAt": "2025-10-14T22:45:00Z",
+    "status": "SUCCESS"
+  }
+}</code></pre>
+    </section>
+
+    <section id="get-md5">
+      <h2>GET /api_md5/:md5</h2>
+      <p>វិធី GET ងាយស្រួលសម្រាប់ test ឬ widget។</p>
+      <div class="method-row"><span class="method get">GET</span><code>/api_md5/{md5}?key=YOUR_KEY</code></div>
+    </section>
+
+    <section id="resp">
+      <h2>Response Format</h2>
+      <table class="doc-table">
+        <tr><th>Field</th><th>Type</th><th>ការពិពណ៌នា</th></tr>
+        <tr><td><code>responseCode</code></td><td>int</td><td>0 = ជោគជ័យ, ផ្សេង = error</td></tr>
+        <tr><td><code>responseMessage</code></td><td>string</td><td>សារ</td></tr>
+        <tr><td><code>data.md5</code></td><td>string</td><td>MD5 ត្រឡប់</td></tr>
+        <tr><td><code>data.amount</code></td><td>float</td><td>ចំនួនទឹកប្រាក់</td></tr>
+        <tr><td><code>data.currency</code></td><td>string</td><td>USD ឬ KHR</td></tr>
+        <tr><td><code>data.paidAt</code></td><td>string</td><td>ISO 8601 timestamp</td></tr>
+      </table>
+    </section>
+
+    <section id="curl">
+      <h2>Example — cURL</h2>
+      <pre><code>curl -X POST https://yourdomain.com/api_md5 \
+  -H "Content-Type: application/json" \
+  -d '{"md5":"a1b2c3d4...","key":"YOUR_KEY"}'</code></pre>
+    </section>
+
+    <section id="python">
+      <h2>Example — Python</h2>
+      <pre><code>import requests
+
+r = requests.post(
+    "https://yourdomain.com/api_md5",
+    json={"md5": "a1b2c3d4...", "key": "YOUR_KEY"},
+    timeout=15,
+)
+data = r.json()
+if data.get("responseCode") == 0:
+    print("Paid:", data["data"]["amount"], data["data"]["currency"])
+else:
+    print("Not found or error:", data.get("responseMessage"))</code></pre>
+    </section>
+
+    <section id="node">
+      <h2>Example — Node.js</h2>
+      <pre><code>const res = await fetch("https://yourdomain.com/api_md5", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ md5: "a1b2c3d4...", key: "YOUR_KEY" }),
+});
+const data = await res.json();
+console.log(data);</code></pre>
+    </section>
+
+    <section id="php">
+      <h2>Example — PHP</h2>
+      <pre><code>$ch = curl_init("https://yourdomain.com/api_md5");
+curl_setopt_array($ch, [
+  CURLOPT_POST => true,
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
+  CURLOPT_POSTFIELDS => json_encode([
+    "md5" => "a1b2c3d4...",
+    "key" => "YOUR_KEY",
+  ]),
+]);
+$res = json_decode(curl_exec($ch), true);
+curl_close($ch);
+print_r($res);</code></pre>
+    </section>
+
+    <section id="err-codes">
+      <h2>Error Codes</h2>
+      <table class="doc-table">
+        <tr><th>Code</th><th>Meaning</th><th>ដំណោះស្រាយ</th></tr>
+        <tr><td>400</td><td>MD5 ខុស format</td><td>ត្រូវ 32 hex chars</td></tr>
+        <tr><td>401</td><td>API key ខុស/បាត់</td><td>ពិនិត្យ key</td></tr>
+        <tr><td>402</td><td>Subscription ផុត</td><td>បង់ប្រាក់បន្ត</td></tr>
+        <tr><td>404</td><td>រកមិនឃើញ transaction</td><td>MD5 មិនមានក្នុង Bakong</td></tr>
+        <tr><td>429</td><td>Rate limit</td><td>រង់ចាំមួយនាទី</td></tr>
+        <tr><td>502</td><td>Bakong upstream</td><td>Token/IP/network — ទាក់ទង admin</td></tr>
+      </table>
+    </section>
+  </article>
+</section>
+{% endblock %}

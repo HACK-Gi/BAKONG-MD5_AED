@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} — {{ title }}{% endblock %}
+{% block body %}
+<section class="form-card" style="text-align:center; padding:40px 24px;">
+  <div style="font-size:72px; font-weight:700; letter-spacing:-2px;
+              background:linear-gradient(135deg,#4f8cff,#a78bfa);
+              -webkit-background-clip:text; background-clip:text;
+              -webkit-text-fill-color:transparent;">{{ code }}</div>
+  <h1 style="font-size:22px; margin:12px 0 8px;">{{ title }}</h1>
+  <p class="muted" style="margin-bottom:24px;">{{ message }}</p>
+  <a class="btn" href="/">ត្រឡប់ទៅទំព័រដើម</a>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="form-card">
+  <h1>ចូល</h1>
+  <form id="login-form">
+    <input type="email" name="email" placeholder="អ៊ីមែល" required>
+    <input type="password" name="password" placeholder="លេខសម្ងាត់" required minlength="10">
+    <button type="submit">ចូល</button>
+    <p class="err" id="err"></p>
+  </form>
+  <p>មិនទាន់មានគណនី? <a href="/register">ចុះឈ្មោះ</a></p>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>bindAuthForm('#login-form', '/api/login', '/dashboard');</script>
+{% endblock %}

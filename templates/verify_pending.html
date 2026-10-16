@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}ផ្ទៀងផ្ទាត់អ៊ីមែល{% endblock %}
+{% block body %}
+<section class="form-card verify-card">
+  <div class="verify-icon">✉</div>
+  <h1>ពិនិត្យ inbox របស់អ្នក</h1>
+  <p>យើងបានផ្ញើ link បញ្ជាក់ទៅ:</p>
+  <p class="verify-email">{{ email }}</p>
+  <p class="muted">ចុច link ក្នុងអ៊ីមែលដើម្បីបើកគណនី។ Link ផុតកំណត់ក្នុង 24 ម៉ោង។</p>
+
+  <div class="verify-resend">
+    <button id="resend-btn" class="btn btn-outline" data-email="{{ email }}"
+            {% if cooldown > 0 %}disabled{% endif %}>
+      {% if cooldown > 0 %}ផ្ញើឡើងវិញបានក្នុង <span id="countdown">{{ cooldown }}</span>s{% else %}ផ្ញើឡើងវិញ{% endif %}
+    </button>
+    <p class="err" id="err"></p>
+    <p class="muted" id="status"></p>
+  </div>
+
+  <p class="muted" style="margin-top:24px;">
+    Email ខុស? <a href="/register">ចុះឈ្មោះម្ដងទៀត</a> · <a href="/login">ចូល</a>
+  </p>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>bindVerifyPending();</script>
+{% endblock %}

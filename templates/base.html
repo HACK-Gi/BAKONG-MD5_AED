@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="km">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}Bakong MD5 Checker{% endblock %}</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icons/favicon.svg') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/favicon.svg') }}">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="ឆែក MD5 Bakong — API លឿន សុវត្ថិភាព សម្រាប់ផ្ទៀងផ្ទាត់ប្រតិបត្តិការ Bakong។">
+  <meta property="og:title" content="MD5·Check — Bakong MD5 API">
+  <meta property="og:description" content="ឆែក MD5 Bakong ក្នុងវិនាទី">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.url_root.rstrip('/') }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='99') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <span class="logo">◈</span> MD5·Check
+      </a>
+      <div class="nav-links">
+        <a href="/pricing">តម្លៃ</a>
+        <a href="/docs">ឯកសារ</a>
+        {% if session.get('sid') %}
+          <a href="/dashboard">Dashboard</a>
+          <a href="/logout" class="btn-ghost">ចាកចេញ</a>
+        {% else %}
+          <a href="/login">ចូល</a>
+          <a href="/register" class="btn-sm">ចុះឈ្មោះ</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <main>{% block body %}{% endblock %}</main>
+  <footer class="foot">
+    <div class="foot-inner">
+      <span>© 2025 MD5·Check</span>
+      <span class="dot">•</span>
+      <a href="/docs">ឯកសារ API</a>
+      <span class="dot">•</span>
+      <span>Powered by Bakong</span>
+    </div>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

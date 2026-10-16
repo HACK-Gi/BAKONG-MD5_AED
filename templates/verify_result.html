@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}ផលផ្ទៀងផ្ទាត់{% endblock %}
+{% block body %}
+<section class="form-card verify-card" style="text-align:center;">
+  {% if ok %}
+    <div class="verify-icon ok">✓</div>
+    <h1 style="color:var(--ok);">{{ message }}</h1>
+    <a class="btn" href="/dashboard" style="margin-top:20px;">ទៅ Dashboard</a>
+    <script>setTimeout(() => location.href = "/dashboard", 1500);</script>
+  {% else %}
+    <div class="verify-icon err">✕</div>
+    <h1 style="color:var(--err);">{{ message }}</h1>
+    <a class="btn btn-outline" href="/login" style="margin-top:20px;">ត្រឡប់ទៅ login</a>
+  {% endif %}
+</section>
+{% endblock %}
